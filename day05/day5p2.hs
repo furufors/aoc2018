@@ -7,7 +7,7 @@ main = interact $ show . reduceMaximally . head . lines
 reduceMaximally :: String -> Int
 reduceMaximally s = minimum [length $ converge reduce s' | l <- ['a'..'z'], let s' = filter (/= l) . filter (/= (toUpper l)) $ s]
 
-converge :: (String -> String) -> String -> String
+converge :: Eq d => (d -> d) -> d -> d
 converge f a = let a' = f a in if a == a' then a else converge f a'
 
 reduce :: String -> String
