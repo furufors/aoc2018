@@ -7,18 +7,14 @@ type Pos = (Int,Int)
 type Square = (Pos, Int, Int, Int) -- (x,y) w h i
 
 main :: IO ()
-main = interact $ show . counts . (\x -> (foldl' collect M.empty x, x)) . map parsein . lines
-
-counts :: (M.Map Pos Int, [Square]) -> Int
-counts (m,ss) = findNonOverlapping ss m
+main = interact $ show . (\x -> findNonOverlapping x (foldl' collect M.empty x)) . map parsein . lines
 
 findNonOverlapping :: [Square] -> M.Map Pos Int -> Int
-findNonOverlapping [    ] _ = error "All overlap."
+findNonOverlapping [] _ = error "All overlap."
 findNonOverlapping (((x,y),w,h,i):ss) m =
     if all (==(Just 1)) [M.lookup (a,b) m | dx <- [0..(w-1)], dy <- [0..(h-1)], let a = x+dx, let b = y+dy]
     then i
     else findNonOverlapping ss m
-
 
 collect :: M.Map Pos Int -> Square -> M.Map Pos Int
 collect m ((x,y),w,h,i) = foldl' inserter m [(a,b) | dx <- [0..(w-1)], dy <- [0..(h-1)], let a = x+dx, let b = y+dy]
