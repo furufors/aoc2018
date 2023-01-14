@@ -68,11 +68,6 @@ buildStatistics tss = foldl' addStatistic M.empty tss'
         addStatistic gs (g,ns) = case M.lookup g gs of
             Just lst -> M.insert g (ns:lst) gs
             Nothing  -> M.insert g (ns:[ ]) gs
-{- cmpMinutes :: TimedEvent -> TimedEvent -> Ordering
-cmpMinutes (t1,_) (t2,_) = compare (toMinutes t1) (toMinutes t2)
-
-toMinutes :: TimeStamp -> Int
-toMinutes (y,m,d,hh,mm) = (((y * 12 + m) * 31 + d) * 24 + hh) * 60 + mm -}
 
 alignShift :: UTCTime -> UTCTime
 alignShift t =
